@@ -27,8 +27,8 @@ class _TabsNonScrollableDemo extends StatefulWidget {
 class __TabsNonScrollableDemoState extends State<_TabsNonScrollableDemo>
     with SingleTickerProviderStateMixin, RestorationMixin {
   late TabController _tabController;
-  
   final RestorableInt tabIndex = RestorableInt(0);
+  final TextEditingController _textController = TextEditingController();
 
   @override
   String get restorationId => 'tab_non_scrollable_demo';
@@ -58,6 +58,7 @@ class __TabsNonScrollableDemoState extends State<_TabsNonScrollableDemo>
   void dispose() {
     _tabController.dispose();
     tabIndex.dispose();
+    _textController.dispose();
     super.dispose();
   }
 
@@ -75,51 +76,94 @@ class __TabsNonScrollableDemoState extends State<_TabsNonScrollableDemo>
           tabs: [for (final tab in tabs) Tab(text: tab)],
         ),
       ),
-      
       body: TabBarView(
         controller: _tabController,
         children: [
-          //tab 1: text
+          // Tab 1: Text with Text Field
           Container(
             color: Colors.red,
-            child: const Center(
-              child: Text(
-                'This is a text widget',
-                style: TextStyle(fontSize: 30),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextField(
+                    controller: _textController,
+                    onSubmitted: (value) => setState(() {}),
+                    decoration: const InputDecoration(
+                      hintText: 'Enter some text',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    _textController.text.isEmpty
+                        ? 'Please enter some text'
+                        : _textController.text,
+                    style: const TextStyle(fontSize: 30),
+                  ),
+                ],
               ),
             ),
           ),
 
-          //tab 2: image
+          // Tab 2: Image with Card Widget
           Container(
             color: Colors.green,
             child: Center(
-              child: Image.network(
-                'https://example.com/',
-                width: 150,
-                height: 150,
-              )
+              child: Card(
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                color: Colors.white,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      'assets/images/flower.jpg',
+                      height: 250,
+                      width: 250
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Flower Card Widget'),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
 
-          //tab 3: button
+          // Tab 3: Button with Alert Dialog
           Container(
             color: Colors.blue,
             child: Center(
               child: ElevatedButton(
                 onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Button pressed in ${tabs[2]} tab!'),
-                    ),
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text("Alert"),
+                        content: const Text("This is an alert dialog."),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text("OK"),
+                          ),
+                        ],
+                      );
+                    },
                   );
                 },
-                child: const Text('Click me'),
+                child: const Text('Show Alert'),
               ),
             ),
           ),
 
-          //tab 4: list
+          // Tab 4: ListView
           Container(
             color: Colors.yellow,
             child: ListView(
@@ -132,6 +176,15 @@ class __TabsNonScrollableDemoState extends State<_TabsNonScrollableDemo>
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: const BottomAppBar(
+        color: Colors.blue,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('This is a bottom app bar'),
+          ],
+        ),
       ),
     );
   }
