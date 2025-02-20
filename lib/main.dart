@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const TabsApp());
 }
 
-class MyApp extends StatelessWidget {
+class TabsApp extends StatelessWidget {
+  const TabsApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -81,7 +83,10 @@ class __TabsNonScrollableDemoState extends State<_TabsNonScrollableDemo>
           Container(
             color: Colors.red,
             child: const Center(
-              child: Text('This is a text widget'),
+              child: Text(
+                'This is a text widget',
+                style: TextStyle(fontSize: 30),
+              ),
             ),
           ),
 
@@ -90,10 +95,10 @@ class __TabsNonScrollableDemoState extends State<_TabsNonScrollableDemo>
             color: Colors.green,
             child: Center(
               child: Image.network(
-                'https://www.google.com/imgres?q=free%20flower%20transparent%20background&imgurl=https%3A%2F%2Fi.pinimg.com%2F736x%2Fb3%2Fc2%2Fb0%2Fb3c2b07591e831813e82006b756ac43f.jpg&imgrefurl=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Fpink-flower-isolated-on-transparent-background-flower-pink-flowr-flowers-png-transparent-image-and-clipart-for-free-download--333266441193585135%2F&docid=mpI4N0U-G4_9FM&tbnid=yZgJhI9VJZ9r1M&vet=12ahUKEwjA85H3rtOLAxXFGtAFHYnVLvUQM3oFCIIBEAA..i&w=640&h=640&hcb=2&ved=2ahUKEwjA85H3rtOLAxXFGtAFHYnVLvUQM3oFCIIBEAA',
+                'https://example.com/',
                 width: 150,
                 height: 150,
-              ),
+              )
             ),
           ),
 
